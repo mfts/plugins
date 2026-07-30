@@ -36,7 +36,8 @@ Write `~/.claude/pstack-models.md` with one line per role, using the same labels
 ```
 # pstack model configuration. One line per role. Delete a line to fall back to the skill default.
 # `inherit` as a value: the role runs on the parent chat model (omit Task `model`). Alias entries in a panel list still count toward its fan-out.
-feature, refactoring: sonnet
+feature: opus
+refactoring: sonnet
 bug-fix: opus
 perf-issue: opus
 hillclimb: opus

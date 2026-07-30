@@ -37,7 +37,7 @@ two steps:
 
 new here? the [pstack guide](./docs/guide/README.md) walks you through a first real task, from setup and prompting through verification and overnight runs.
 
-that's it. the other skills are situational; the mode skill uses them for you as needed. out of the box the mode splits work by model strength: precisely-specified code goes to opus, fast mechanical code goes to sonnet, and prose and judgment go to fable. the default review panel is fable / opus / sonnet / haiku. [`/pstack:setup-pstack`](./skills/setup-pstack/SKILL.md) changes any of it.
+that's it. the other skills are situational; the mode skill uses them for you as needed. out of the box the mode splits work by model strength: features, bug fixes, perf, and hillclimbing go to opus, fast mechanical code (refactors, renames, sweeps) goes to sonnet, and prose and judgment go to fable. the default review panel is fable / opus / sonnet / haiku. [`/pstack:setup-pstack`](./skills/setup-pstack/SKILL.md) changes any of it.
 
 ## usage
 
