@@ -1,0 +1,28 @@
+{
+	"$schema": "https://json.schemastore.org/claude-code-marketplace.json",
+	"name": "pstack-claude",
+	"owner": {
+		"name": "Lauren Tan"
+	},
+	"metadata": {
+		"description": "Claude Code port of pstack: rigorous agent workflows you can parallelize with confidence.",
+		"version": "0.11.13"
+	},
+	"plugins": [
+		{
+			"name": "pstack",
+			"source": "./",
+			"description": "if you want to go fast, go deep first. pstack helps you write less, but higher quality code. rigorous agent workflows you can parallelize with confidence.",
+			"category": "developer-tools",
+			"keywords": [
+				"pstack",
+				"poteto-mode",
+				"workflow",
+				"principles",
+				"agent-style",
+				"subagents",
+				"unslop"
+			]
+		}
+	]
+}

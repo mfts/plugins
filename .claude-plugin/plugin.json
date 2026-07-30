@@ -20,5 +20,7 @@
 		"unslop"
 	],
 	"skills": "./skills/",
-	"agents": "./agents/"
+	"agents": [
+		"./agents/poteto-agent.md"
+	]
 }
