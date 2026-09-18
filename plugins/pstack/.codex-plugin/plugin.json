@@ -1,0 +1,38 @@
+{
+  "name": "pstack",
+  "version": "0.15.2",
+  "description": "if you want to go fast, go deep first. pstack helps you write less, but higher quality code. rigorous agent workflows you can parallelize with confidence.",
+  "author": {
+    "name": "Lauren Tan"
+  },
+  "license": "MIT",
+  "keywords": [
+    "pstack",
+    "poteto-mode",
+    "workflow",
+    "principles",
+    "agent-style",
+    "subagents",
+    "unslop"
+  ],
+  "skills": "./skills/",
+  "repository": "https://github.com/mfts/plugins",
+  "homepage": "https://github.com/mfts/plugins",
+  "interface": {
+    "displayName": "pstack",
+    "shortDescription": "Rigorous engineering workflows, ported to Codex",
+    "longDescription": "if you want to go fast, go deep first. pstack helps you write less, but higher quality code. rigorous agent workflows you can parallelize with confidence.",
+    "developerName": "Lauren Tan; Codex port by mfts",
+    "category": "Developer Tools",
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
+    "websiteURL": "https://github.com/mfts/plugins",
+    "logo": "./assets/logo.png",
+    "defaultPrompt": [
+      "Use $poteto-mode to investigate and fix this bug.",
+      "Use $interrogate to review this change."
+    ]
+  }
+}

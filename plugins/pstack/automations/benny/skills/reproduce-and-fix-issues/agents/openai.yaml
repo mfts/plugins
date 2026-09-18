@@ -1,0 +1,5 @@
+interface:
+  display_name: "Reproduce and fix issues"
+  short_description: "Pstack workflow: reproduce-and-fix-issues"
+policy:
+  allow_implicit_invocation: false

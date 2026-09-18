@@ -1,0 +1,5 @@
+interface:
+  display_name: "Triage issue reports"
+  short_description: "Pstack workflow: triage-issue-reports"
+policy:
+  allow_implicit_invocation: false

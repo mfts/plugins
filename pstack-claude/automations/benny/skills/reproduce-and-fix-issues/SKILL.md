@@ -4,6 +4,9 @@ description: Reproduce triaged Slack bugs through a configured app-control adapt
 disable-model-invocation: true
 ---
 
+Read [Claude Code platform guidance](../../../../PLATFORM.md) before following this workflow. It defines tool, model, history, and scheduling behavior for this port.
+
+
 # Reproduce and fix issues
 
 Wait for a trusted triage marker in the source thread. Reproduce the exact symptom through the target app's real UI. Verify an existing fix when one exists. Attempt a bounded fix only after a confirmed repro.
@@ -119,7 +122,7 @@ Use the configured plain Unicode status strings. Keep status text short:
 - Draft pull request opened
 - Fix did not land
 
-Prefer configured Claude Code Slack actions. Use `BENNY_SLACK_BOT_TOKEN` only when the user configured it for a narrow missing capability such as editing this one status message. Never expose the token to a worker.
+Prefer configured Slack connector actions. Use `BENNY_SLACK_BOT_TOKEN` only when the user configured it for a narrow missing capability such as editing this one status message. Never expose the token to a worker.
 
 If no operations channel is configured, keep detailed status in the automation run output. Do not substitute a source-channel root message.
 

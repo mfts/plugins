@@ -1,0 +1,5 @@
+interface:
+  display_name: "Blast radius"
+  short_description: "Pstack workflow: blast-radius"
+policy:
+  allow_implicit_invocation: false

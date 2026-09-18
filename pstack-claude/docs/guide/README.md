@@ -7,11 +7,11 @@ Here's what you'll learn:
 1. [Set up pstack](./01-setup.md). Install the plugin and pick your models.
 2. [Route work through `/pstack:poteto-mode`](./02-poteto-mode.md). Give it a goal and watch it pick a playbook.
 3. [Understand the code](./03-understand.md). `/pstack:how`, `/pstack:why`, `/pstack:teach`, and `/pstack:recall` before you edit anything.
-4. [Design the change](./04-design.md). `/pstack:architect`, `/pstack:arena`, and `/pstack:interrogate` before code locks in a shape.
-5. [Build and clean the change](./05-build-and-clean.md). The build playbooks, `/pstack:tdd`, and `/pstack:unslop`.
-6. [Verify and ship](./06-verify-and-ship.md). Prove behavior on the real app, then open a focused PR.
-7. [Run work while you sleep](./07-overnight.md). An overnight contract and a decision log you can audit.
-8. [Steer with principle names](./08-principles.md). The 21 names that redirect an agent mid-task.
+4. [Design the change](./04-design.md). `/pstack:architect`, `/pstack:arena`, `/pstack:swarm`, and `/pstack:interrogate` before code locks in a shape.
+5. [Build and clean the change](./05-build-and-clean.md). The build playbooks, `/pstack:tdd`, `/pstack:unslop`, and `/pstack:no-comments`.
+6. [Verify and ship](./06-verify-and-ship.md). Prove behavior on the real app, then open a focused PR and drive it to merged.
+7. [Run work while you sleep](./07-overnight.md). An overnight contract, a decision log you can audit, and the playbooks that scale past one agent.
+8. [Steer with principle names](./08-principles.md). The 23 names that redirect an agent mid-task.
 9. [Make it yours](./09-make-it-yours.md). Your own mode, plus how to test a skill change.
 10. [Recipes and pitfalls](./10-recipes-and-pitfalls.md). Prompts to copy and mistakes to skip.
 

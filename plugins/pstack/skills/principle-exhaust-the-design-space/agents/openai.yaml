@@ -1,0 +1,5 @@
+interface:
+  display_name: "Principle exhaust the design space"
+  short_description: "Pstack workflow: principle-exhaust-the-design-space"
+policy:
+  allow_implicit_invocation: false
