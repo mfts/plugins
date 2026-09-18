@@ -1,8 +1,11 @@
 ---
 name: create-verification-skill
-description: "Generate a project-local verification skill that drives your app the way a user does — any language, framework, or platform. Use for /create-verification-skill, \"make a control skill for this repo\", or when a project has no scripted way to prove UI/CLI/service behavior."
+description: "Generate a project-local verification skill that drives your app the way a user does — any language, framework, or platform. Use for /pstack:create-verification-skill, \"make a control skill for this repo\", or when a project has no scripted way to prove UI/CLI/service behavior."
 disable-model-invocation: true
 ---
+
+Read [Claude Code platform guidance](../../PLATFORM.md) before following this workflow. It defines tool, model, history, and scheduling behavior for this port.
+
 
 # Create a verification skill
 
@@ -33,7 +36,7 @@ Write `.claude/skills/verify-<app>/SKILL.md` with YAML frontmatter (`name: verif
 
 ## 3. Seed the feature map
 
-Create `.claude/skills/verify-<app>/features/README.md` plus one file per user-facing feature you can identify (aim for the top 3-5 to start, from routes, commands, menus, or docs). Each file answers, from the user's point of view: what the feature is, how to reach it, how to drive it with the harness, and what observable end state proves it works. The map is the repo's maintained verification source; a proof that drives one convenient entry point is incomplete when the map lists others.
+Create `.claude/skills/verify-<app>/features/README.md` plus one file per user-facing feature you can identify (aim for the top 3-5 to start, from routes, commands, menus, or docs). Follow the shape in [`references/feature-map-example/`](references/feature-map-example/), with a README index and one file per feature. Each file answers, from the user's point of view: what the feature is, how to reach it, how to drive it with the harness, and what observable end state proves it works. The four H2s are `Sub-features`, `How to get to it (user POV)`, `Driving it with <harness>`, and `Gotchas`. The map is the repo's maintained verification source; a proof that drives one convenient entry point is incomplete when the map lists others.
 
 ## 4. Prove the generated skill before handing it over
 

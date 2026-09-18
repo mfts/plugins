@@ -2,7 +2,7 @@
 
 Prompts worth copying, then the mistakes everyone makes once. Swap in your own paths and finish conditions. The recipes are deliberately informal. That's how they get typed in practice, and the skills read intent fine.
 
-![She tastes a finished dish while robots cook from a recipe box, with pinned cards reading /how, /tdd, and /loop above the counter.](./images/recipes.jpg)
+![She tastes a finished dish while robots cook from a recipe box, with pinned cards reading /pstack:how, /pstack:tdd, and /loop above the counter.](./images/recipes.jpg)
 
 ## Understand an unfamiliar subsystem
 
@@ -19,6 +19,14 @@ ask /pstack:arena for a second opinion on this thread and our approach
 ```
 
 Your current design becomes one candidate among several, and the synthesis tells you whether the panel found something better or confirmed what you had. Cheap insurance before a costly commitment.
+
+## Check independent slices in parallel
+
+```text
+/pstack:swarm check every package under packages/ against its check.sh. one worker per package. one report.
+```
+
+Each worker owns one package. The parent waits for every slice and returns one `PASS`, `ISSUES`, or `BLOCKED` report instead of raw worker dumps.
 
 ## Review a branch skeptically
 
@@ -62,13 +70,22 @@ apply prove it works. show me the real output, not the build log.
 
 You rarely need more words. You need the right name, and [the principles page](./08-principles.md) is the vocabulary.
 
+## Get the reply in plain words
+
+```text
+/pstack:bro
+```
+
+That's the whole prompt. [`/pstack:bro`](../../skills/bro/SKILL.md) restates the last message like one human talking to another, no jargon, shorter. Use it when a reply is technically thorough and you still don't know what it said.
+
 ## The pitfalls
 
-- **Enumerating skills in the prompt.** "use /how then /architect then /arena" reorders steps the playbook already sequences. State the goal and constraints. Name a skill only to override a default.
+- **Enumerating skills in the prompt.** "use /pstack:how then /pstack:architect then /pstack:arena" reorders steps the playbook already sequences. State the goal and constraints. Name a skill only to override a default.
 - **A vague finish condition.** "make it better" gives `/loop` nothing to check. Give a command or artifact that can pass or fail.
 - **Parallel agents in one worktree.** They overwrite each other and the diff becomes archaeology. Say "own worktree per attempt" and the isolation is free.
+- **Using `/pstack:arena` for coverage.** `/pstack:arena` repeats one design or code brief, then picks a base and grafts the best parts. `/pstack:swarm` partitions slices or declared race arms and aggregates one report.
 - **Accepting every review comment.** Bots and humans both file real catches and noise in one list. `/pstack:interrogate` sorts findings into act-on and dismissed buckets with reasons, and you can override either way.
-- **Treating `inherit` as a model alias.** `inherit` means "omit the model field so the subagent runs on the parent chat model." It is not something you can pass to `/model`. [Setup](./01-setup.md) covers the roles.
+- **Treating `auto` as a model slug.** `auto` and `inherit-parent` mean "omit the model field so the subagent inherits the parent chat model." [Setup](./01-setup.md) covers the roles.
 - **Reporting success off a green build.** A build proves it compiles. Ask for the real command, flow, stored value, or profile, and expect the evidence in the reply.
 - **Writing a `SKILL.md` freehand.** Route it through the [Authoring or modifying a skill playbook](../../skills/poteto-mode/playbooks/authoring-a-skill.md) so validation and review happen.
 

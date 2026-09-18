@@ -1,0 +1,5 @@
+interface:
+  display_name: "Principle build the lever"
+  short_description: "Pstack workflow: principle-build-the-lever"
+policy:
+  allow_implicit_invocation: false

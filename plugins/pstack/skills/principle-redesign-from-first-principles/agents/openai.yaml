@@ -1,0 +1,5 @@
+interface:
+  display_name: "Principle redesign from first principles"
+  short_description: "Pstack workflow: principle-redesign-from-first-principles"
+policy:
+  allow_implicit_invocation: false

@@ -1,0 +1,5 @@
+interface:
+  display_name: "Setup benny"
+  short_description: "Pstack workflow: setup-benny"
+policy:
+  allow_implicit_invocation: false

@@ -4,6 +4,9 @@ description: Triage Slack issue reports with one thread-only verdict, evidence r
 disable-model-invocation: true
 ---
 
+Read [Claude Code platform guidance](../../../../PLATFORM.md) before following this workflow. It defines tool, model, history, and scheduling behavior for this port.
+
+
 # Triage issue reports
 
 Classify one Slack report and post one useful verdict in its source thread. Create a tracker issue only for a clear, new bug. Do not reproduce or fix it here.

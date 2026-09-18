@@ -1,67 +1,41 @@
 ---
 name: setup-pstack
-description: Configure which models pstack uses per role. Detects your available models and writes a config file that overrides the skill defaults. Use for /setup-pstack, "configure pstack models", or changing pstack's model choices.
+description: Configure pstack models per role and reasoning budget. Use for setup-pstack, configure pstack models, pstack budget, or changing its model choices.
 ---
+
+Read [Claude Code platform guidance](../../PLATFORM.md) before following this workflow. It defines tool, model, history, and scheduling behavior for this port.
+
 
 # Setup pstack
 
-Write `~/.claude/pstack-models.md`, a config file that sets pstack's model per role. The skills read it and fall back to their inline defaults when a line is absent, so this is an override layer, not a requirement.
+Read the platform guide before configuring delegation. Store choices in `~/.claude/pstack-models.md`. This is a pstack data file read by its skills, not an automatically loaded host rule.
 
-## Steps
+1. Inspect the current session's delegation tool schema for supported models and effort settings. Do not guess model IDs or append effort names to them. If no model list is exposed, retain `inherit-parent` or ask the user for an available model. `auto` and legacy `inherit` mean `inherit-parent` in this file; omit the model argument for all three.
+2. Read the existing file when present. Preserve role choices and unrelated settings. Otherwise use the defaults below.
+3. Ask for the desired reasoning budget (inherit, low, medium, high, or another value actually supported by this session). Show the role table and let the user accept or change specific roles. Model choice and reasoning effort are separate settings. If the delegation API cannot set effort, say so and leave it inherited.
+4. Validate every explicit model and effort against the exposed schema. A panel list has one entry per runner even when entries repeat. When only one model is available, diversify reviewer lenses; do not describe the result as cross-model review.
+5. Write the confirmed role choices to `~/.claude/pstack-models.md`, preserving unrelated content. The directory may need to be created. Re-running setup updates this file without editing the host's global configuration.
 
-### 1. Detect available models
-
-Enumerate the model aliases you can pass to a `Task` subagent in this session; that is the dependable source. Claude Code's aliases are `opus`, `sonnet`, `haiku`, and `fable`; full IDs such as `claude-opus-5` also work. Check `/model` for the entitled list when you need completeness. If you cannot detect any, ask the user to paste the aliases they have access to. Never write an alias you have not confirmed is available. The alias `inherit` is always valid even though it is not a detected model.
-
-Entitlements vary by plan. A user without `opus` needs the opus roles remapped, so detect rather than assume.
-
-### 2. Load current state
-
-The default role-to-model mapping is the config shape shown in step 5 below. If `~/.claude/pstack-models.md` already exists, read it and treat its values as the current choices. Otherwise start from those defaults.
-
-### 3. Map and confirm
-
-Show every role with its current model, marking any model not in the detected set as needing a choice. Ask whether to accept as-is or change specific roles, offering the detected models plus `inherit` (meaning: this role runs on the parent chat model) as the options. Prefer AskUserQuestion over free text. For panel roles (how critics, arena runners, architect runners, interrogate reviewers) the value is a list, and one subagent runs per entry, alias entries included, so the list length sets the count. `arena cross-judge pool` is also a list, but Arena selects one value from it that differs from the parent's model when possible.
-
-Claude Code offers fewer distinct model families than a multi-vendor setup, so panel diversity comes from two axes rather than one. Vary the model where you can, and vary each reviewer's assigned lens (correctness, security, performance, maintainability) for the rest. A panel of four across two models still beats a panel of four running one prompt.
-
-### 4. Validate
-
-Every model written must be in the detected set; `inherit` always passes. If a chosen model is not available, stop and ask again. A config pointing at a model the user cannot use breaks every delegation that reads it.
-
-### 5. Write the config
-
-Write `~/.claude/pstack-models.md` with one line per role, using the same labels poteto-mode uses. Overwrite the whole file so re-runs stay idempotent. Shape:
-
-```
-# pstack model configuration. One line per role. Delete a line to fall back to the skill default.
-# `inherit` as a value: the role runs on the parent chat model (omit Task `model`). Alias entries in a panel list still count toward its fan-out.
-feature: opus
-refactoring: sonnet
-bug-fix: opus
-perf-issue: opus
-hillclimb: opus
-judgment and prose: fable
-hardest tasks: fable
-how explorer: sonnet
-how explainer: fable
-how critics: fable, opus, sonnet, haiku
-why investigators: sonnet
-why synthesizer: fable
-reflect tooling: opus
-reflect judgment, divergent, synthesizer: fable
-arena runners: fable, opus, sonnet, haiku
-arena cross-judge pool: fable, opus, sonnet, haiku
-architect runners: fable, opus, sonnet, haiku
-interrogate reviewers: fable, opus, sonnet, haiku
+```text
+# pstack model configuration
+# budget: inherit
+feature, refactoring: inherit-parent
+bug-fix: inherit-parent
+perf-issue: inherit-parent
+hillclimb: inherit-parent
+judgment and prose: inherit-parent
+hardest tasks: inherit-parent
+how explorer: inherit-parent
+how explainer: inherit-parent
+why investigators: inherit-parent
+why synthesizer: inherit-parent
+reflect tooling: inherit-parent
+reflect judgment, divergent, synthesizer: inherit-parent
+arena runners: inherit-parent, inherit-parent, inherit-parent, inherit-parent
+arena cross-judge pool: inherit-parent, inherit-parent, inherit-parent, inherit-parent
+swarm workers: inherit-parent
+architect runners: inherit-parent, inherit-parent, inherit-parent, inherit-parent
+interrogate reviewers: inherit-parent, inherit-parent, inherit-parent, inherit-parent
 ```
 
-The skills read this file on demand at delegation time. It is not loaded into every session, so it costs no context until a delegation fires.
-
-### 6. Confirm
-
-Tell the user the config was written and where. It applies immediately. Re-running this skill updates it.
-
-### 7. Offer a verification skill (optional)
-
-Check whether the project has a way to drive the real app for proof (a `verify-*` skill, an existing harness, or Claude Code's `/run` and `/verify` already taught about this repo). If not, offer once: "want a project-local verification skill, so agents can drive the app the way a user does and prove changes work? I can generate one with `/pstack:create-verification-skill`, or Claude Code's bundled `/run-skill-generator` can teach `/run` and `/verify` about this repo." On yes, invoke the chosen one. On no, move on without pushing.
+Confirm the path written. Pstack reads it when a workflow starts; re-read it after setup in this session. If the project lacks a real-app verification harness, offer the **create-verification-skill** skill once.

@@ -1,8 +1,8 @@
 # Design before you write code
 
-One attempt at a hard design locks in the first shape the model thought of. These three skills exist so that doesn't happen. `/pstack:architect` settles types and boundaries before implementation. `/pstack:arena` runs several attempts in parallel and merges the best parts. `/pstack:interrogate` has other models try to break the result.
+One attempt at a hard design locks in the first shape the model thought of. `/pstack:architect` settles types and boundaries before implementation. `/pstack:arena` runs several attempts at the same brief and merges the best parts. `/pstack:interrogate` has other models try to break the result. When the job is coverage rather than design synthesis, `/pstack:swarm` fans out slices or races and aggregates their results.
 
-![Three robots draft competing bridge models at their own tables under /architect, /arena, and /interrogate panels, while a judge robot with a clipboard inspects skeptically.](./images/design.jpg)
+![Three robots draft competing bridge models at their own tables under /pstack:architect, /pstack:arena, and /pstack:interrogate panels, while a judge robot with a clipboard inspects skeptically.](./images/design.jpg)
 
 ## Settle the shape with `/pstack:architect`
 
@@ -24,7 +24,7 @@ By default it proceeds straight from the synthesized design into implementation.
 /pstack:arena take my prompt to the arena verbatim. i want to compare their proposals with yours.
 ```
 
-[`/pstack:arena`](../../skills/arena/SKILL.md) is the general tool underneath. N subagents attempt the same task in parallel, each writing to its own worktree or directory. A read-only judge, on a different model family when your configuration allows one, scores every candidate against a rubric. The coordinator reads each candidate end to end, picks a base, grafts in the best ideas from the losers, and verifies the result.
+[`/pstack:arena`](../../skills/arena/SKILL.md) is the general tool underneath. N subagents attempt the same design or code brief in parallel, each writing to its own worktree or directory. A read-only judge, on a different model family when your configuration allows one, scores every candidate against a rubric. The coordinator reads each candidate end to end, picks a base, grafts in the best ideas from the losers, and verifies the result.
 
 ```mermaid
 flowchart LR
@@ -46,6 +46,16 @@ The panel comes from your [`/pstack:setup-pstack`](../../skills/setup-pstack/SKI
 /pstack:arena this, 5 candidates. the cache key format is expensive to change later.
 ```
 
+## Cover slices and races with `/pstack:swarm`
+
+```text
+/pstack:swarm check every package under packages/ against its check.sh. one worker per package. one report.
+```
+
+[`/pstack:swarm`](../../skills/swarm/SKILL.md) fans N workers across independent slices, coverage matrices, gauntlet lanes, exploration partitions, or declared race arms. Each worker gets its own scope and check, then reports `PASS`, `ISSUES`, or `BLOCKED`. The parent waits for the workers and returns one compact report with any gaps or dropouts.
+
+Reach for it when parallelism buys coverage or lets independent checks race. `/pstack:arena` gives every worker the same design or code brief, then picks a base and grafts the best parts. `/pstack:swarm` covers slices or runs a race with a selection rule declared up front. It does not use the base-selection and grafting ceremony.
+
 ## Break it with `/pstack:interrogate`
 
 ```text
@@ -63,6 +73,7 @@ You might be wondering whether every change needs this. No. Most changes need no
 - A small, finished change you're unsure about needs `/pstack:interrogate` alone.
 - A change that crosses function boundaries or moves ownership earns `/pstack:architect`, which brings `/pstack:arena` with it.
 - A standalone decision where independent attempts would help, like naming, formats, or an algorithm, is `/pstack:arena` directly.
+- A coverage matrix, set of parallel checks, or race with declared arms is `/pstack:swarm`.
 - A contested design that's expensive to reverse gets `/pstack:architect`, then `/pstack:interrogate` before shipping.
 
 `/pstack:poteto-mode` already applies this ladder. Boundary-crossing work triggers `/pstack:architect` on its own, so you reach for these directly mainly when you want more or less scrutiny than the default.
