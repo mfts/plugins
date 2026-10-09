@@ -1,11 +1,14 @@
 # plugins
 
-pstack for Codex and Claude Code, ported from [Lauren Tan's pstack](https://github.com/cursor/plugins/tree/main/pstack). Both ports track upstream **0.15.2** and preserve its MIT license.
+mfts' plugin marketplace for Claude Code and Codex.
 
-| Host | Plugin | Marketplace |
-| --- | --- | --- |
-| Codex | [plugins/pstack](plugins/pstack/) | [.agents/plugins/marketplace.json](.agents/plugins/marketplace.json) |
-| Claude Code | [pstack-claude](pstack-claude/) | [.claude-plugin/marketplace.json](.claude-plugin/marketplace.json) |
+| Plugin | Host | Source | Marketplace |
+| --- | --- | --- | --- |
+| pstack | Codex | [plugins/pstack](plugins/pstack/) | [.agents/plugins/marketplace.json](.agents/plugins/marketplace.json) |
+| pstack | Claude Code | [pstack-claude](pstack-claude/) | [.claude-plugin/marketplace.json](.claude-plugin/marketplace.json) |
+| review-kit | Claude Code | [review-kit](review-kit/) | [.claude-plugin/marketplace.json](.claude-plugin/marketplace.json) |
+
+pstack is ported from [Lauren Tan's pstack](https://github.com/cursor/plugins/tree/main/pstack). Both ports track upstream **0.15.2** and preserve its MIT license. review-kit ships `/review-kit:review-security` and `/review-kit:thermo-nuclear-code-quality-review`, two reviewer subagents with a task ledger and an optional `--fix` loop; see its [README](review-kit/README.md) for arguments and remote-session setup.
 
 ## Codex
 
@@ -23,6 +26,7 @@ After publication, use `codex plugin marketplace add mfts/plugins`. Start a new 
 ```bash
 claude plugin marketplace add mfts/plugins
 claude plugin install pstack@mfts-plugins
+claude plugin install review-kit@mfts-plugins
 ```
 
 For local testing, replace `mfts/plugins` with the checkout's absolute path. Existing users can update the marketplace and plugin after publication:
@@ -32,7 +36,14 @@ claude plugin marketplace update mfts-plugins
 claude plugin update pstack@mfts-plugins
 ```
 
-Restart Claude Code, then invoke `/pstack:setup-pstack` or `/pstack:poteto-mode`.
+Restart Claude Code, then invoke `/pstack:setup-pstack`, `/pstack:poteto-mode`, or `/review-kit:review-security`.
+
+Validate review-kit after editing it:
+
+```bash
+claude plugin validate ./review-kit
+python3 scripts/validate-review-kit.py
+```
 
 ## Updating pstack
 

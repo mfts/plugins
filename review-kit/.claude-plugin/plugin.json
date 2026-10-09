@@ -1,0 +1,23 @@
+{
+  "name": "review-kit",
+  "version": "0.1.0",
+  "description": "Security review and thermo-nuclear code quality review for a branch or working tree. Read-only reviewer subagents, a task ledger that runs to completion, and an optional fix-and-re-review loop.",
+  "author": {
+    "name": "mfts"
+  },
+  "license": "MIT",
+  "keywords": [
+    "review",
+    "security",
+    "code-quality",
+    "maintainability",
+    "subagents"
+  ],
+  "skills": "./skills/",
+  "repository": "https://github.com/mfts/plugins",
+  "homepage": "https://github.com/mfts/plugins",
+  "agents": [
+    "./agents/security-review.md",
+    "./agents/thermo-nuclear-code-quality-review.md"
+  ]
+}
