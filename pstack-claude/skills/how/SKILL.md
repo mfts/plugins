@@ -11,6 +11,8 @@ Read [Claude Code platform guidance](../../PLATFORM.md) before following this wo
 
 Explore the codebase to answer "how does X work?" questions. Produce architectural explanations at the level of a senior engineer onboarding onto a subsystem, enough to build a working mental model, not so much that it reads like annotated source code.
 
+Each spawn below names a role line in the `~/.claude/pstack-models.md` file and a default. Set `model` to that line's value, or to the default if the rule or the line is missing. Leave `model` unset when the value is `auto` or `inherit-parent`. If the Task tool rejects a slug, use the default and say so. If it rejects the default, use the closest valid slug of the same family from its error message.
+
 ## Step 1. Assess Complexity
 
 If the scope is ambiguous, state your interpretation and explore. The user can redirect.
@@ -25,7 +27,7 @@ When in doubt, take the simple path.
 Decompose the question into 2 to 4 exploration angles, each a distinct slice of the subsystem. Spawn all explorers in a single message:
 
 - `subagent_type`: `general-purpose`
-- `model`: your configured how-explorer model (default `inherit-parent`)
+- `model`: the `how explorer` line, default `inherit-parent`
 - Scope: read-only investigation; do not modify files or external records.
 
 Each explorer gets the prompt in `references/explorer-prompt.md` with its angle filled in. Then go to Step 3.
@@ -35,7 +37,7 @@ Each explorer gets the prompt in `references/explorer-prompt.md` with its angle 
 Spawn one Agent subagent that explores and explains in one pass:
 
 - `subagent_type`: `general-purpose`
-- `model`: your configured how-explainer model (default `inherit-parent`)
+- `model`: the `how explainer` line, default `inherit-parent`
 - Scope: read-only investigation; do not modify files or external records.
 
 Build its prompt from `references/explainer-prompt.md` without the explorer-findings section. Go to Step 4.
@@ -45,7 +47,7 @@ Build its prompt from `references/explainer-prompt.md` without the explorer-find
 Once all explorers have returned, spawn one Agent subagent to synthesize their findings into one explanation:
 
 - `subagent_type`: `general-purpose`
-- `model`: your configured how-explainer model (default `inherit-parent`)
+- `model`: the `how explainer` line, default `inherit-parent`
 - Scope: read-only investigation; do not modify files or external records.
 
 Build its prompt from `references/explainer-prompt.md` with every explorer's findings filled in.

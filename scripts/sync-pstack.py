@@ -10,8 +10,10 @@ import subprocess
 ROOT = Path(__file__).resolve().parents[1]
 OVERLAYS = ROOT / 'scripts/pstack'
 PORTS = {'claude': ROOT / 'pstack-claude', 'codex': ROOT / 'plugins/pstack'}
-MODELS = ('claude-fable-5-1-thinking-max', 'claude-opus-5-thinking-xhigh',
-          'gpt-5.6-sol-max', 'grok-4.6-fast-xhigh')
+# Cursor model slugs upstream names as defaults. Longest first so prefixes do not clobber suffixed slugs.
+MODELS = ('claude-fable-5-1-thinking-max', 'claude-opus-5-thinking-xhigh', 'claude-opus-5-5-medium',
+          'claude-opus-5-5-xhigh', 'claude-opus-5-5-max', 'gpt-5.6-sol-max',
+          'grok-4.7-medium-fast', 'grok-4.7-xhigh-fast', 'grok-4.6-fast-xhigh')
 
 
 def dump(value):
@@ -59,6 +61,7 @@ Give writers isolated worktrees or disjoint ownership; give investigators explic
     text = text.replace('a cloud-sleeper wake chain', 'a supported host wake mechanism')
 
     text = text.replace('~/.cursor/rules/pstack-models.mdc', config)
+    text = text.replace('the `pstack-models.mdc` rule', f'the `{config}` file')
     for model in MODELS:
         text = text.replace(model, 'inherit-parent')
     text = text.replace('~/.cursor/skills/', '~/.claude/skills/' if platform == 'claude' else '~/.agents/skills/')
@@ -93,14 +96,19 @@ Give writers isolated worktrees or disjoint ownership; give investigators explic
     text = text.replace('on its own cloud VM', 'in its own isolated verification environment')
     text = text.replace('cloud agent\'s status', 'worker\'s status')
     text = text.replace('Spawn all N workers in one message with `subagent_type: generalPurpose`, `environment: "cloud"`, `run_in_background: true`, and the configured model. Use `environment: "local"` only when the worker needs access to something on the user\'s computer.', 'Spawn workers using the platform guide, in waves bounded by available slots. Give each writer an isolated worktree and each reviewer a read-only scope. Use the configured model only when supported.')
+    text = text.replace('Spawn all N workers in one message with `subagent_type: generalPurpose`, `environment: "cloud"`, `run_in_background: true`, and the step 4 model, left unset for `auto` or `inherit-parent`. Use `environment: "local"` only when the worker needs access to something on the user\'s computer.', 'Spawn workers using the platform guide, in waves bounded by available slots, with the step 4 model left unset for `auto` or `inherit-parent`. Give each writer an isolated worktree and each reviewer a read-only scope.')
     if platform == 'claude':
         text = text.replace('AskQuestion', 'AskUserQuestion').replace('generalPurpose', 'general-purpose')
+        text = text.replace('- `/loop` and `/create-skill` are Cursor built-ins.', '- `/loop` is a Claude Code built-in when the host exposes it; `/pstack:create-skill` is bundled with this port.')
+        text = text.replace('spawn Cursor subagents with per-role models, and Custom Modes and `/loop` are Cursor features, so those parts may not work there.', 'spawn subagents with per-role models through the host delegation tool described in the platform guide. Custom Modes are a Cursor feature; here, start each new task with `/pstack:poteto-mode`.')
         text = text.replace('subagent_type: "poteto-agent"', 'subagent_type: "pstack:poteto-agent"')
         text = text.replace('subagent_type: "Comment Sicko"', 'subagent_type: "pstack:comment-sicko"')
         text = re.sub(r'^- `readonly`: `(?:true|false)`[^\n]*', '- Scope: read-only investigation; do not modify files or external records.', text, flags=re.M)
         text = text.replace('agent mode (`readonly: false`)', 'with access to the required read tools')
         text = text.replace('`Task`', '`Agent`').replace('Task subagent', 'Agent subagent').replace('Task `model`', 'Agent `model`')
     else:
+        text = text.replace('- `/loop` and `/create-skill` are Cursor built-ins.', '- Persistent loops need the host scheduler described in the platform guide; `$create-skill` is bundled with this port.')
+        text = text.replace('spawn Cursor subagents with per-role models, and Custom Modes and `/loop` are Cursor features, so those parts may not work there.', 'spawn subagents with per-role models through the host delegation tool described in the platform guide. Custom Modes are a Cursor feature; here, start each new task with `$poteto-mode`.')
         text = text.replace('Reviewers return findings in the `Task` response body.', 'Collect reviewer findings from completion messages or the available wait tool; spawning returns an agent handle, not the final report.')
         text = text.replace('Substituting `generalPurpose` skips that read and drifts.', 'Give each general worker this prompt-file path so it reads the mode before acting.')
         text = text.replace('`/loop`', 'the authorized monitoring loop').replace('/loop until', 'Keep working until')

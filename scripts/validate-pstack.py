@@ -57,7 +57,7 @@ for root in PORTS:
         if 'skills' in path.relative_to(root).parts and path.name != 'PLATFORM.md':
             require('~/.cursor/' not in text, f'{path}: unported Cursor user path')
             require('.cursor/skills/' not in text, f'{path}: unported project skill path')
-            require(not re.search(r'(claude-fable-5|grok-4\.6|gpt-5\.6-sol-max)', text), f'{path}: unported model ID')
+            require(not re.search(r'(claude-fable-5|claude-opus-5-5|claude-opus-5-thinking|grok-4\.[67]|gpt-5\.6-sol-max|pstack-models\.mdc|environment: \"cloud\")', text), f'{path}: unported model ID')
     for agent in manifest.get('agents', []):
         require((root / agent).is_file(), f'{label}: missing registered agent {agent}')
     for path in (root / 'skills').rglob('*.sh'):

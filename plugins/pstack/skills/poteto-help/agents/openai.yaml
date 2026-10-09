@@ -1,0 +1,5 @@
+interface:
+  display_name: "Poteto help"
+  short_description: "Pstack workflow: poteto-help"
+policy:
+  allow_implicit_invocation: false
