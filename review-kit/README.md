@@ -36,14 +36,16 @@ claude plugin marketplace add /absolute/path/to/mfts-plugins
 claude plugin install review-kit@mfts-plugins
 ```
 
-From GitHub, which also works in remote and cloud sessions:
+From GitHub:
 
 ```bash
 claude plugin marketplace add mfts/plugins
 claude plugin install review-kit@mfts-plugins
 ```
 
-To make the plugin available in every session of a repository, including remote sessions started from claude.ai, commit this to the repository's `.claude/settings.json`:
+### Local sessions for a whole repository
+
+Commit this to the repository's `.claude/settings.json`. Local Claude Code sessions register the marketplace after the contributor accepts the workspace trust dialog and enable the plugin at session start. The key and the `@` suffix must match the marketplace's `name`, which is `mfts-plugins`.
 
 ```json
 {
@@ -57,6 +59,38 @@ To make the plugin available in every session of a repository, including remote 
   }
 }
 ```
+
+### Cloud and remote sessions
+
+A cloud session does not install the plugins a repository enables in `.claude/settings.json`, because that path needs the trust dialog a cloud session never shows (see [cloud environments](https://code.claude.com/docs/en/cloud-environments)). Install the plugin in the cloud environment's setup script instead. Open the environment at claude.ai/code, edit its **Setup script**, and add:
+
+```bash
+claude plugin marketplace add mfts/plugins
+claude plugin install review-kit@mfts-plugins
+```
+
+The script runs before Claude Code launches and its result is cached, so later sessions start with the plugin already installed. `github.com` is on the default network allowlist, so no extra network access is needed for this public marketplace.
+
+To make the install travel with the repository instead, add a `SessionStart` hook to `.claude/settings.json` that runs only in the cloud:
+
+```json
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "[ \"$CLAUDE_CODE_REMOTE\" = \"true\" ] || exit 0; claude plugin marketplace add mfts/plugins >/dev/null 2>&1; claude plugin install review-kit@mfts-plugins"
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+Hooks run after Claude Code launches, so a plugin installed this way may need `/reload-plugins` or the next session to appear. Prefer the setup script when you control the environment.
 
 Restart Claude Code and run `/review-kit:review-security` or `/review-kit:thermo-nuclear-code-quality-review`.
 
