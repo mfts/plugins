@@ -2,7 +2,7 @@
 
 A Codex port of [pstack](https://github.com/cursor/plugins/tree/main/pstack) by [Lauren Tan](https://x.com/poteto). Rigorous workflows for understanding, designing, implementing, reviewing, and verifying software.
 
-Upstream version **0.15.2**. The exact source commit is recorded in [UPSTREAM.json](UPSTREAM.json). The original MIT license is preserved in [LICENSE](LICENSE).
+Upstream version **0.15.15**. The exact source commit is recorded in [UPSTREAM.json](UPSTREAM.json). The original MIT license is preserved in [LICENSE](LICENSE).
 
 ## Install
 

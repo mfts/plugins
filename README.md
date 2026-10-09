@@ -8,7 +8,7 @@ mfts' plugin marketplace for Claude Code and Codex.
 | pstack | Claude Code | [pstack-claude](pstack-claude/) | [.claude-plugin/marketplace.json](.claude-plugin/marketplace.json) |
 | review-kit | Claude Code | [review-kit](review-kit/) | [.claude-plugin/marketplace.json](.claude-plugin/marketplace.json) |
 
-pstack is ported from [Lauren Tan's pstack](https://github.com/cursor/plugins/tree/main/pstack). Both ports track upstream **0.15.2** and preserve its MIT license. review-kit ships `/review-kit:review-security` and `/review-kit:thermo-nuclear-code-quality-review`, two reviewer subagents with a task ledger and an optional `--fix` loop; see its [README](review-kit/README.md) for arguments and remote-session setup.
+pstack is ported from [Lauren Tan's pstack](https://github.com/cursor/plugins/tree/main/pstack). Both ports track upstream **0.15.15** and preserve its MIT license. review-kit ships `/review-kit:review-security` and `/review-kit:thermo-nuclear-code-quality-review`, two reviewer subagents with a task ledger and an optional `--fix` loop; see its [README](review-kit/README.md) for arguments and remote-session setup.
 
 ## Codex
 
